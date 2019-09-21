@@ -4,13 +4,10 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import com.educandowe.aulapds1.entities.Category;
 import com.educandowe.aulapds1.repositories.CategoryRepository;
-import com.educandowe.aulapds1.services.exceptions.DatabaseException;
 import com.educandowe.aulapds1.services.exceptions.ResourceNotFoundException;
 
 @Service 
@@ -22,20 +19,26 @@ public class CategoryService {
     public List <Category> findAll() {
        return repository.findAll();	
     }
-    public Category findById(Long Id) {
-    	Optional<Category> obj =  repository.findById(Id);
-    	return obj.get();
+    public Category findById(Long id) {
+    	Optional<Category> obj =  repository.findById(id);
+    	return obj.orElseThrow(() -> new ResourceNotFoundException(id));
     }
     
     public Category insert (Category obj) {
     	return repository.save(obj);
-    }
-
-    public void delete(Long id) {
+    }  
+    
+    public void delete (Long id) {
     	repository.deleteById(id);
-    } } catch (EmptyResultDataAccessException e) {
-    	throw new ResourceNotFoundException(id);
-    } catch (DataIntegrityViolationException e) {
-    	throw new DatabaseException(e.getMessage());
+    }
+    
+    public Category update (Long id, Category obj) {
+    	Category entity = repository.getOne(id);
+    	updateData (entity, obj);
+    	return repository.save(entity);
+    }
+	private void updateData(Category entity, Category obj) {
+		entity.setName (obj.getName());		
+	}
 }
 

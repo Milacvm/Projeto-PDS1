@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.educandowe.aulapds1.entities.Category;
-import com.educandowe.aulapds1.entities.User;
 import com.educandowe.aulapds1.services.CategoryService;
 
 @RestController
@@ -49,16 +48,15 @@ public class CategoryResource {
 	 @DeleteMapping(value = "/{id}")
 	 public ResponseEntity<Void> delete(@PathVariable Long id) {
 		 service.delete(id);
-		 return ResponseEntity.noContent().build();
-		 
+		 return ResponseEntity.noContent().build(); 
 	 }
 	 
 	 @PutMapping(value = "/{id}")
-	 public ResponseEntity<Category> update(@PathVariable Long id, @RequestBody Category obj){
-         obj = service.update(id, obj);
-         return ResponseEntity.ok().body(obj);
+	 public ResponseEntity<Category> update(@PathVariable Long id, @RequestBody Category obj) {
+		 obj = service.update(id, obj);
+		 return ResponseEntity.ok().body(obj); 
 	 }
 }
+	 
 
-}
 
