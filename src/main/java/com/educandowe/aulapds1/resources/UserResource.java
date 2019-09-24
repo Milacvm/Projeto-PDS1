@@ -22,41 +22,39 @@ import com.educandowe.aulapds1.services.UserService;
 @RestController
 @RequestMapping(value = "/users")
 public class UserResource {
-	
+
 	@Autowired
 	private UserService service;
-	
+
 	@GetMapping
 	public ResponseEntity<List<UserDTO>> findAll() {
 		List<UserDTO> list = service.findAll();
 		return ResponseEntity.ok().body(list);
 	}
 
-	 @GetMapping(value = "/{id}")
-	 public ResponseEntity<UserDTO> findById(@PathVariable Long id){
-	  UserDTO dto =service.findById(id);
-	  return ResponseEntity.ok().body(dto);
-	 }
-	 
-	 @PostMapping
-	 public ResponseEntity<User> insert(@RequestBody User obj) {
-		 obj = service.insert(obj);
-		 URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
-				 .buildAndExpand(obj.getId()).toUri();
-		 return ResponseEntity.created(uri).body(obj);
-	 }
-	 
-	 @DeleteMapping(value = "/{id}")
-	 public ResponseEntity<Void> delete(@PathVariable Long id) {
-		 service.delete(id);
-		 return ResponseEntity.noContent().build();
-		 
-	 }
-	 
-	 @PutMapping(value = "/{id}")
-	 public ResponseEntity<User> update(@PathVariable Long id, @RequestBody User obj){
-         obj = service.update(id, obj);
-         return ResponseEntity.ok().body(obj);
-	 }
-}
+	@GetMapping(value = "/{id}")
+	public ResponseEntity<UserDTO> findById(@PathVariable Long id) {
+		UserDTO dto = service.findById(id);
+		return ResponseEntity.ok().body(dto);
+	}
 
+	@PostMapping
+	public ResponseEntity<User> insert(@RequestBody User obj) {
+		obj = service.insert(obj);
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
+		return ResponseEntity.created(uri).body(obj);
+	}
+
+	@DeleteMapping(value = "/{id}")
+	public ResponseEntity<Void> delete(@PathVariable Long id) {
+		service.delete(id);
+		return ResponseEntity.noContent().build();
+
+	}
+
+	@PutMapping(value = "/{id}")
+	public ResponseEntity<UserDTO> update(@PathVariable Long id, @RequestBody UserDTO dto) {
+		dto = service.update(id, dto);
+		return ResponseEntity.ok().body(dto);
+	}
+}
