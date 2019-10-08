@@ -4,14 +4,26 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Positive;
+
+import org.hibernate.validator.constraints.Length;
+
 import com.educandowe.aulapds1.entities.Product;
 
 public class ProductCategoriesDTO implements Serializable{
 
 	private static final long serialVersionUID = 1L; 
 	
+	@NotEmpty (message = "can't be empty")
+	@Length(min =8, max = 20, message = "length must be between 3 and 80")
 	private String name;
+	
+	@NotEmpty (message = "can't be empty")
+	@Length(min =8, max = 20, message = "length must be between 5 and 80")
 	private String description;
+	
+	@Positive (message = "Invalid value")
 	private Double price;
 	private String imgUrl;
 	
