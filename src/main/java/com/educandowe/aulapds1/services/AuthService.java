@@ -5,6 +5,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.educandowe.aulapds1.dto.CredentialsDTO;
 import com.educandowe.aulapds1.dto.TokenDTO;
@@ -21,6 +22,7 @@ public class AuthService {
 	@Autowired
 	private JWTUtil jwtUtil;
 	
+	@Transactional(readOnly = true)
 	public TokenDTO authenticate(CredentialsDTO dto) {
 		try {
 		UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken (dto.getEmail(), dto.getPassword());
